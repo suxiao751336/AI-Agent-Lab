@@ -104,10 +104,7 @@ npm run check:env  # 校验 .env 配置（不发请求）
 
 ## 演示视频
 
-| 内容 | 位置 |
-|---|---|
-| Vibe Coding Agent：需求输入 → 多轮生成 → 模拟器预览 → ZIP 导出 | `docs/demo-vibe-coding.mp4` |
-| Conversation Navigator Agent：示例加载 → 目录生成 → 语义搜索 → 消息定位 | `docs/demo-navigator.mp4` |
+两个 Agent 的实际运行演示已录制，视频将随面试作业邮件单独提供，GitHub 仓库仅包含项目源码和运行说明。
 
 ## 已知限制
 
