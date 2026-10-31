@@ -1,6 +1,6 @@
 # AI Agent Lab
 
-字节跳动面试作业 · AI Agent 方向。包含两个可交互的 Agent Demo，均接入真实大模型（无 Mock、无预置模板），展示多模态代码生成与长对话智能导航两类 Agent 能力。
+字节跳动面试作业 · AI Agent 方向。包含两个可交互的 Agent Demo，核心 Agent 流程均接入真实大模型（另内置本地示例数据便于快速体验），展示多模态代码生成与长对话智能导航两类 Agent 能力。
 
 ## 两个 Agent
 
@@ -73,13 +73,61 @@
 
 要求 Node ≥ 20.19（Vite 8 要求）。
 
+**步骤 1：克隆仓库**
+
+```bash
+git clone https://github.com/suxiao751336/AI-Agent-Lab.git
+cd AI-Agent-Lab
+```
+
+**步骤 2：安装依赖**
+
 ```bash
 npm install
-cp .env.example .env    # 填入 SILICONFLOW_API_KEY
+```
+
+**步骤 3：创建本地环境变量文件**
+
+Windows PowerShell：
+
+```powershell
+Copy-Item .env.example .env
+```
+
+macOS / Linux：
+
+```bash
+cp .env.example .env
+```
+
+**步骤 4：打开 `.env`，配置自己的硅基流动 API Key**
+
+```dotenv
+SILICONFLOW_API_KEY=YOUR_OWN_API_KEY
+SILICONFLOW_MODEL=moonshotai/Kimi-K2.7-Code
+SILICONFLOW_IMAGE_MODEL=Tongyi-MAI/Z-Image-Turbo
+NAVIGATOR_MODEL=deepseek-ai/DeepSeek-V4-Flash
+```
+
+- `SILICONFLOW_API_KEY` 为必填项。
+- 其他模型变量使用项目现有默认配置即可。
+- API Key 可以从 `https://cloud.siliconflow.cn` 获取。
+- 部分模型调用会产生实际费用，请自行确认账户余额和模型可用性。
+- 不要把真实 API Key 提交到 GitHub。
+
+**步骤 5：启动项目**
+
+```bash
 npm run dev
 ```
 
-打开 http://localhost:5173 。后端 API 由 Vite 中间件提供，无需单独启动服务。
+Windows PowerShell 如遇 npm.ps1 执行策略限制，可改用：
+
+```powershell
+npm.cmd run dev
+```
+
+启动后访问 http://localhost:5173 。开发模式下，前端页面与后端 API 由同一个 Vite 开发服务器提供（后端 API 以中间件形式挂载），不需要单独启动后端进程。
 
 其他命令：
 
@@ -100,11 +148,21 @@ npm run check:env  # 校验 .env 配置（不发请求）
 | `SILICONFLOW_IMAGE_MODEL` | 否 | 视觉增强图像模型，默认 `Tongyi-MAI/Z-Image-Turbo` |
 | `NAVIGATOR_MODEL` | 否 | Navigator 对话模型，默认 `deepseek-ai/DeepSeek-V4-Flash` |
 
-获取 API Key：https://cloud.siliconflow.cn
+## API Key 与安全说明
+
+1. 本项目调用真实大模型 API，但 GitHub 仓库不包含任何私人 API Key。
+2. `.env` 已被 `.gitignore` 排除，不会作为正常项目源码提交。
+3. `.env.example` 仅用于展示配置格式，不包含有效密钥。
+4. 如需在本地实际运行两个 Agent，使用者需自行提供硅基流动 API Key。
+5. 不应将 API Key 写入前端源码、公开仓库、截图或运行日志。
+6. 不建议通过公开邮件或公开链接分享真实 API Key。
+7. 请勿将模型调用结果或固定示例数据误认为完全离线运行；核心 Agent 功能依赖外部模型服务。
+
+> **安全提示：** 本项目出于安全考虑不提供开发者个人 API Key。面试官可以直接查看源码及随邮件提供的演示视频；如需自行运行，请按照上述步骤配置自己的硅基流动 API Key。真实模型调用可能产生费用。
 
 ## 演示视频
 
-两个 Agent 的实际运行演示已录制，视频将随面试作业邮件单独提供，GitHub 仓库仅包含项目源码和运行说明。
+> 两个 Agent 的实际运行演示已录制，演示视频将通过面试作业邮件单独提供。本仓库主要用于展示源码、技术架构和本地运行说明。
 
 ## 已知限制
 
@@ -114,6 +172,10 @@ npm run check:env  # 校验 .env 配置（不发请求）
 - Navigator 用户会话存于 localStorage，清除浏览器数据会丢失（内置 TravelMate 示例不受影响）
 - 长代码生成依赖上游模型稳定性，连续 60 秒无流式数据会触发无进度超时终止
 - 服务端为 Vite dev 中间件形态，面向本地演示，未做生产部署的多实例 / 鉴权设计
+- 首次运行需要网络连接和有效的模型 API Key
+- 大模型生成速度受模型推理、网络和服务商负载影响，复杂代码任务可能耗时较长或超时
+- 本项目为技术面试 Demo，不是经过生产环境高并发和多租户安全验证的商业应用
+- 视频中的生成等待片段可能经过快进处理，但操作和模型调用均基于真实运行过程
 
 ## 目录结构
 
